@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signals Demo — TradeNexa TradingView Indicator</title>
+  <meta name="description" content="Explore live-style demonstration signals for TradeNexa. Clean BUY and SELL visual markers across crypto, forex, and equities." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --sell: #FF4466;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.12em; }
+    .navbar-logo span { color: var(--buy); }
+    .navbar-nav { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .navbar-nav a { text-decoration: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.05em; transition: color 0.2s; }
+    .navbar-nav a:hover, .navbar-nav a.active { color: var(--buy); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.25s; border: none; }
+    .btn-primary { background: var(--buy); color: #000; box-shadow: 0 0 20px rgba(0,230,118,0.3); }
+    .btn-primary:hover { background: #1AFF8A; transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .page-hero { padding: 140px 0 50px; text-align: center; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--accent); background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.25); margin-bottom: 20px; }
+    .chart-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(0,230,118,0.06);
+      position: relative;
+      overflow: hidden;
+      animation: ambient-float 6s ease-in-out infinite;
+    }
+    .chart-panel::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 35%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.08), transparent);
+      animation: scanline 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      pointer-events: none;
+    }
+    @keyframes scanline {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(350%); }
+    }
+    @keyframes ambient-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    .chart-controls { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+    .sym-btn, .tf-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 14px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+    .sym-btn.active, .tf-btn.active, .sym-btn:hover, .tf-btn:hover { background: rgba(0,230,118,0.12); color: var(--buy); border-color: rgba(0,230,118,0.3); }
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 30px 0; }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .metric-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 230, 118, 0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,230,118,0.1);
+    }
+    .metric-title { font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .metric-value { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: #fff; }
+    @media (max-width: 900px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .navbar-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/><line x1="4" y1="18" x2="10" y2="14" stroke="#00E676" stroke-width="1.5"/><line x1="10" y1="14" x2="16" y2="20" stroke="#00E676" stroke-width="1.5"/><line x1="16" y1="20" x2="22" y2="12" stroke="#22D3EE" stroke-width="1.5"/><line x1="22" y1="12" x2="28" y2="16" stroke="#22D3EE" stroke-width="1.5"/></svg>
+      TRADE<span>NEXA</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="signals.html" class="active">Signals</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="pricing.html" class="btn btn-primary">Get Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-hero">
+    <div class="badge">SYSTEMATIC VISUALIZATION</div>
+    <h1 style="font-size:clamp(2.2rem, 4vw, 3.4rem);font-family:var(--font-heading);font-weight:800;margin-bottom:16px;">THE SIGNALS EXPLAINED</h1>
+    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;">Evaluate how TradeNexa structures market inflection zones. All chart demonstrations reflect calibrated mathematical simulation models.</p>
+  </div>
+
+  <div class="chart-panel">
+    <div class="chart-controls">
+      <div style="display:flex;gap:8px;">
+        <button class="sym-btn active" onclick="loadTradingViewChart('BINANCE:BTCUSDT')">BTC/USDT</button>
+        <button class="sym-btn" onclick="loadTradingViewChart('BINANCE:ETHUSDT')">ETH/USDT</button>
+        <button class="sym-btn" onclick="loadTradingViewChart('OANDA:XAUUSD')">XAU/USD (Gold)</button>
+        <button class="sym-btn" onclick="loadTradingViewChart('FX:EURUSD')">EUR/USD</button>
+        <button class="sym-btn" onclick="loadTradingViewChart('NASDAQ:AAPL')">NASDAQ:AAPL</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--buy);">● LIVE FEED CONNECTED</span>
+      </div>
+    </div>
+
+    <!-- Official TradingView Live Widget Container -->
+    <div style="height:550px;width:100%;margin:16px 0;" id="tv_chart_container">
+      <!-- Injected via TradingView Widget Script -->
+    </div>
+
+    <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);">
+      <span>LIVE MARKET DATA POWERED BY TRADINGVIEW</span>
+      <span style="color:var(--buy);">INDICATOR OVERLAY: INVITE-ONLY IN YOUR ACCOUNT</span>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-title">Bullish Momentum Signal</div>
+      <div class="metric-value" style="color:var(--buy)">BUY</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Bearish Momentum Signal</div>
+      <div class="metric-value" style="color:var(--sell)">SELL</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Algorithm Precision Filter</div>
+      <div class="metric-value" style="color:var(--accent)">DYNAMIC</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Repaint Status</div>
+      <div class="metric-value" style="color:#FFF">ZERO-REPAINT*</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:30px;margin-bottom:60px;">
+    <h3 style="font-family:var(--font-heading);margin-bottom:12px;">Signal Integrity & Non-Repainting Execution</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+      Signals on TradeNexa lock permanently upon candle close. This guarantees that what you observe in historical backtesting corresponds exactly to real-time candle execution without retroactive shifting.
+    </p>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:0.8rem;color:var(--text-muted);">
+  <p>© 2026 TradeNexa. Trade with clarity. Built for TradingView.</p>
+  <p style="margin-top:10px;"><a href="terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Terms</a><a href="privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Privacy</a><a href="risk-disclaimer.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Risk Disclaimer</a></p>
+</footer>
+
+<script src="shared.js"></script>
+<!-- TradingView Official Advanced Real-Time Chart Library -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script type="text/javascript">
+  function loadTradingViewChart(symbol) {
+    // Update active button state
+    document.querySelectorAll('.sym-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(symbol)) {
+        btn.classList.add('active');
+      }
+    });
+
+    document.getElementById('tv_chart_container').innerHTML = '';
+    new TradingView.widget({
+      "autosize": true,
+      "symbol": symbol || "BINANCE:BTCUSDT",
+      "interval": "15",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#0B1117",
+      "enable_publishing": false,
+      "backgroundColor": "rgba(5, 7, 10, 1)",
+      "gridColor": "rgba(255, 255, 255, 0.04)",
+      "hide_top_toolbar": false,
+      "hide_legend": false,
+      "save_image": false,
+      "container_id": "tv_chart_container"
+    });
+  }
+
+  // Initialize on load
+  window.addEventListener('DOMContentLoaded', () => {
+    loadTradingViewChart('BINANCE:BTCUSDT');
+  });
+</script>
+</body>
+</html>
+

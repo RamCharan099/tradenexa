@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About TradeNexa — Professional Trading Analysis</title>
+  <meta name="description" content="Discover the philosophy, engineering standards, and institutional design behind the TradeNexa TradingView indicator." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.12em; }
+    .navbar-logo span { color: var(--buy); }
+    .navbar-nav { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .navbar-nav a { text-decoration: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.05em; }
+    .navbar-nav a:hover { color: var(--buy); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--buy); color: #000; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .page-hero { padding: 140px 0 50px; text-align: center; }
+    .content-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 36px; margin-bottom: 30px; }
+    .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+    .value-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    @media (max-width: 800px) { .values-grid { grid-template-columns: 1fr; } .navbar-nav { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner" style="max-width:1200px;">
+    <a href="index.html" class="navbar-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/></svg>
+      TRADE<span>NEXA</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="signals.html">Signals</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="pricing.html" class="btn btn-primary">Get Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-hero">
+    <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--buy);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;">ENGINEERING MISSION</div>
+    <h1 style="font-size:clamp(2.2rem, 4vw, 3.4rem);font-family:var(--font-heading);font-weight:800;margin-bottom:16px;">TRADE WITH CLARITY.</h1>
+    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;">TradeNexa was built to strip away market noise and replace chaotic indicator overlays with institutional visual simplicity.</p>
+  </div>
+
+  <div class="content-box">
+    <h2 style="font-family:var(--font-heading);margin-bottom:16px;">Our Philosophy</h2>
+    <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:16px;">
+      Most retail traders lose money not because of lack of information, but due to information paralysis. When a chart is congested with three oscillators, four moving averages, and lagging volume bars, rapid conviction becomes impossible.
+    </p>
+    <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8;">
+      TradeNexa synthesizes complex volume delta, market structure shifts, and volatility compression models into clear, actionable BUY and SELL signals directly on your chart canvas.
+    </p>
+
+    <div class="values-grid">
+      <div class="value-card">
+        <h4 style="font-family:var(--font-heading);color:var(--buy);margin-bottom:8px;">Zero False Promises</h4>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">We do not sell get-rich schemes. We develop decision-support software for disciplined traders who take risk management seriously.</p>
+      </div>
+      <div class="value-card">
+        <h4 style="font-family:var(--font-heading);color:var(--accent);margin-bottom:8px;">Algorithmic Rigor</h4>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Signals calculate strictly on confirmed candlestick closures. No repainting, no retrospective shifting, and zero ambiguity.</p>
+      </div>
+      <div class="value-card">
+        <h4 style="font-family:var(--font-heading);color:#fff;margin-bottom:8px;">Trader-Centric Design</h4>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">High contrast, modern dark UI styling engineered to prevent visual fatigue across lengthy multi-hour trading sessions.</p>
+      </div>
+      <div class="value-card">
+        <h4 style="font-family:var(--font-heading);color:var(--buy);margin-bottom:8px;">Continuous Evolution</h4>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Market regimes evolve. We regularly update our Pine Script algorithms to adapt to volatility and liquidity cycle shifts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:50px 0;">
+    <h3 style="font-family:var(--font-heading);font-size:1.8rem;margin-bottom:16px;">Step up your analytical workflow.</h3>
+    <a href="pricing.html" class="btn btn-primary" style="padding:14px 32px;">Explore Pricing</a>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:0.8rem;color:var(--text-muted);">
+  <p>© 2026 TradeNexa. Trade with clarity. Built for TradingView.</p>
+  <p style="margin-top:10px;"><a href="terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Terms</a><a href="privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Privacy</a><a href="risk-disclaimer.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Risk Disclaimer</a></p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

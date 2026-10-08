@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>License Management — TradeNexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .dash-wrap { display: flex; min-height: 100vh; }
+    .sidebar { width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .dash-main { flex: 1; padding: 40px; max-width: 1000px; }
+    .nav-list { list-style: none; margin-top: 30px; }
+    .nav-list li { margin-bottom: 6px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+    .nav-link.active, .nav-link:hover { color: #fff; background: rgba(0,230,118,0.08); border-left: 3px solid var(--buy); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; margin-bottom: 24px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--buy); color: #000; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    @media (max-width: 900px) { .dash-wrap { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); } }
+  </style>
+</head>
+<body>
+
+<div class="dash-wrap">
+  <aside class="sidebar">
+    <div>
+      <a href="index.html" style="text-decoration:none;font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;">
+        <svg width="24" height="24" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/></svg>
+        AXOR<span style="color:var(--buy)">YNTH</span>
+      </a>
+
+      <ul class="nav-list">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="tradingview-access.html" class="nav-link">TradingView Access</a></li>
+        <li><a href="license.html" class="nav-link active">License Key</a></li>
+        <li><a href="billing.html" class="nav-link">Billing &amp; Invoices</a></li>
+        <li><a href="account.html" class="nav-link">Account Settings</a></li>
+        <li><a href="contact.html" class="nav-link">Support Desk</a></li>
+      </ul>
+    </div>
+    <div><a href="index.html" class="nav-link" style="color:var(--sell)">Logout</a></div>
+  </aside>
+
+  <main class="dash-main">
+    <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:8px;">LICENSE MANAGEMENT</h1>
+    <p style="color:var(--text-secondary);margin-bottom:32px;">Manage your unique software credentials and connected TradingView profile.</p>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">AUTHENTICATION STATUS</span>
+          <h3 style="font-family:var(--font-heading);font-size:1.4rem;color:var(--buy);margin-top:4px;">VALID &amp; AUTHORIZED</h3>
+        </div>
+        <button class="btn btn-secondary" onclick="alert('License signature refreshed with TradingView API.');">Verify Token</button>
+      </div>
+
+      <div style="background:#05070A;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:24px;">
+        <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;">MASTER LICENSE KEY</div>
+        <div style="font-family:var(--font-mono);font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:0.1em;display:flex;align-items:center;justify-content:space-between;">
+          <span id="keyText">TNX-9842-PRO-LIVE</span>
+          <button class="btn btn-primary" style="padding:6px 14px;font-size:0.75rem;" onclick="navigator.clipboard.writeText('TNX-9842-PRO-LIVE');alert('Copied to clipboard!');">Copy Key</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">LINKED TRADINGVIEW USERNAME</div>
+          <div style="font-weight:600;margin-top:4px;">@trader_pro_99</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">EXPIRATION DATE</div>
+          <div style="font-weight:600;margin-top:4px;color:var(--buy);">NEVER (LIFETIME ACCESS)</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
+

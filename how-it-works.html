@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works — TradeNexa TradingView Indicator</title>
+  <meta name="description" content="Discover how TradeNexa transforms complex market structure into actionable BUY & SELL signals in 4 streamlined steps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --sell: #FF4466;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.12em; }
+    .navbar-logo span { color: var(--buy); }
+    .navbar-nav { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .navbar-nav a { text-decoration: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.05em; transition: color 0.2s; }
+    .navbar-nav a:hover, .navbar-nav a.active { color: var(--buy); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.25s; border: none; }
+    .btn-primary { background: var(--buy); color: #000; box-shadow: 0 0 20px rgba(0,230,118,0.3); }
+    .btn-primary:hover { background: #1AFF8A; transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+    .page-hero { padding: 140px 0 60px; text-align: center; position: relative; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--buy); background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.25); margin-bottom: 20px; }
+    .page-title { font-size: clamp(2.2rem, 4vw, 3.4rem); font-family: var(--font-heading); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .page-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+    .step-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 36px; margin-bottom: 24px; display: grid; grid-template-columns: 80px 1fr 1fr; gap: 32px; align-items: center; }
+    .step-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--buy); }
+    .step-info h3 { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 12px; }
+    .step-info p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+    .step-preview { background: rgba(5,7,10,0.6); border: 1px solid var(--border); border-radius: 10px; padding: 20px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+    .rule-box { background: rgba(0,230,118,0.03); border: 1px solid rgba(0,230,118,0.2); border-radius: 12px; padding: 24px; margin: 40px 0; }
+    @media (max-width: 900px) {
+      .step-card { grid-template-columns: 1fr; gap: 20px; }
+      .navbar-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/><line x1="4" y1="18" x2="10" y2="14" stroke="#00E676" stroke-width="1.5"/><line x1="10" y1="14" x2="16" y2="20" stroke="#00E676" stroke-width="1.5"/><line x1="16" y1="20" x2="22" y2="12" stroke="#22D3EE" stroke-width="1.5"/><line x1="22" y1="12" x2="28" y2="16" stroke="#22D3EE" stroke-width="1.5"/></svg>
+      TRADE<span>NEXA</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="how-it-works.html" class="active">How It Works</a></li>
+      <li><a href="signals.html">Signals</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="pricing.html" class="btn btn-primary">Get Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-hero">
+    <div class="badge">EXECUTION WORKFLOW</div>
+    <h1 class="page-title">FROM CHART TO SIGNAL IN<br><span style="color:var(--buy)">FOUR PRECISE STEPS.</span></h1>
+    <p class="page-subtitle">Learn how TradeNexa processes market trend structures directly inside TradingView without unnecessary noise or confusion.</p>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-info">
+      <h3>Open TradingView Platform</h3>
+      <p>Log in to your standard or premium TradingView account across Web, Desktop, or Mobile. Select your chosen asset: Crypto (BTC, ETH), Forex (EURUSD, GBPUSD), Commodities, or Indices.</p>
+    </div>
+    <div class="step-preview">
+      > Target: TradingView Workspace<br>
+      > Mode: Multi-Asset Compatibility<br>
+      > Timeframes: 1m, 5m, 15m, 1h, 4h, 1D
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-info">
+      <h3>Add TradeNexa Indicator</h3>
+      <p>Once your license is active, navigate to Indicators > Invite-Only Scripts and select TradeNexa. The indicator compiles instantly onto your chart canvas with zero third-party software installations.</p>
+    </div>
+    <div class="step-preview">
+      > Status: Authorized via TV Username<br>
+      > Script Type: Invite-Only Pine Engine<br>
+      > Clutter Level: Ultra-Clean Overlay
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-info">
+      <h3>Observe Systematic BUY & SELL Signals</h3>
+      <p>TradeNexa evaluates momentum, volume filters, and volatility thresholds. When optimal setup metrics align, sharp visual BUY (Green) or SELL (Red) markers plot directly beneath or above key candlesticks.</p>
+    </div>
+    <div class="step-preview">
+      > Green Arrow: Bullish Momentum Setup<br>
+      > Red Arrow: Bearish Momentum Setup<br>
+      > TP / SL Guidance: Dynamic Bands
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-info">
+      <h3>Execute With Disciplined Risk Control</h3>
+      <p>Combine signal alerts with your personal strategy, position sizing, and risk parameters. Set TradingView mobile/webhook push notifications so you never miss high-conviction market transitions.</p>
+    </div>
+    <div class="step-preview">
+      > Execution: Manual Trader Decision<br>
+      > Alerts: Push, SMS, Webhook, Sound<br>
+      > Role: Technical Decision-Support
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <h4 style="font-family:var(--font-heading);color:var(--buy);margin-bottom:8px;">⚠️ Professional Discipline Notice</h4>
+    <p style="font-size:0.88rem;color:var(--text-secondary);">TradeNexa is a systematic decision-support technical indicator, not an automated financial advisor or guarantee of profit. Always enforce strict risk management (1-2% account exposure per setup) and verify macro conditions before entry.</p>
+  </div>
+
+  <div style="text-align:center;padding:60px 0;">
+    <h2 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:16px;">Ready to clear your chart clutter?</h2>
+    <p style="color:var(--text-secondary);margin-bottom:30px;">Get immediate invite-only access to TradeNexa on TradingView today.</p>
+    <a href="pricing.html" class="btn btn-primary" style="padding:16px 36px;font-size:1rem;">View Pricing Plans</a>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:0.8rem;color:var(--text-muted);">
+  <p>© 2026 TradeNexa. Trade with clarity. Built for TradingView.</p>
+  <p style="margin-top:10px;"><a href="terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Terms</a><a href="privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Privacy</a><a href="risk-disclaimer.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Risk Disclaimer</a></p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

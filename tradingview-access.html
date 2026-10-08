@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradingView Access Guide — TradeNexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .dash-wrap { display: flex; min-height: 100vh; }
+    .sidebar { width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .dash-main { flex: 1; padding: 40px; max-width: 1000px; }
+    .nav-list { list-style: none; margin-top: 30px; }
+    .nav-list li { margin-bottom: 6px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+    .nav-link.active, .nav-link:hover { color: #fff; background: rgba(0,230,118,0.08); border-left: 3px solid var(--buy); }
+    .step-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 24px; }
+    .step-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+    .step-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,230,118,0.1); border: 1px solid var(--buy); color: var(--buy); font-family: var(--font-mono); font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--buy); color: #000; box-shadow: 0 0 20px rgba(0,230,118,0.25); }
+    @media (max-width: 900px) { .dash-wrap { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); } }
+  </style>
+</head>
+<body>
+
+<div class="dash-wrap">
+  <aside class="sidebar">
+    <div>
+      <a href="index.html" style="text-decoration:none;font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;">
+        <svg width="24" height="24" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/></svg>
+        AXOR<span style="color:var(--buy)">YNTH</span>
+      </a>
+
+      <ul class="nav-list">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="tradingview-access.html" class="nav-link active">TradingView Access</a></li>
+        <li><a href="license.html" class="nav-link">License Key</a></li>
+        <li><a href="billing.html" class="nav-link">Billing &amp; Invoices</a></li>
+        <li><a href="account.html" class="nav-link">Account Settings</a></li>
+        <li><a href="contact.html" class="nav-link">Support Desk</a></li>
+      </ul>
+    </div>
+    <div><a href="index.html" class="nav-link" style="color:var(--sell)">Logout</a></div>
+  </aside>
+
+  <main class="dash-main">
+    <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:8px;">INSTALL TradeNexa</h1>
+    <p style="color:var(--text-secondary);margin-bottom:32px;">Follow this 4-step walk-through to add TradeNexa to your TradingView charts.</p>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">01</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.2rem;">Verify TradingView Username</h3>
+      </div>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+        Ensure your TradingView username is correctly linked in your Account settings. TradeNexa is delivered via TradingView's proprietary Invite-Only permission mechanism.
+      </p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">02</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.2rem;">Log into TradingView Chart</h3>
+      </div>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+        Open TradingView in your web browser or desktop app at <a href="https://tradingview.com" target="_blank" rel="noopener" style="color:var(--buy)">tradingview.com</a> and load any chart (e.g. BTCUSD or EURUSD).
+      </p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">03</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.2rem;">Open "Invite-Only Scripts" Section</h3>
+      </div>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+        Click the <strong>Indicators &amp; Strategies</strong> button (fx icon) at the top of your chart. In the left panel of the modal, select <strong>Invite-Only Scripts</strong>. Locate <strong>TradeNexa Algorithmic Engine</strong> and click it once.
+      </p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">04</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.2rem;">Configure Parameters &amp; Alerts</h3>
+      </div>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+        Double-click the TradeNexa indicator title on your chart to customize sensitivity, toggle BUY/SELL markers, or configure TradingView mobile alerts with three clicks.
+      </p>
+    </div>
+
+    <div style="text-align:center;padding:30px 0;">
+      <a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener" class="btn btn-primary">Open TradingView Chart Now</a>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
+

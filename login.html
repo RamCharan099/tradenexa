@@ -1,0 +1,708 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — TradeNexa</title>
+  <meta name="description" content="Sign in to your TradeNexa account and access your TradingView trading indicators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --text-primary: #F0F4F8;
+      --text-muted: #94A3B8;
+      --green: #00E676;
+      --green-dim: rgba(0,230,118,0.12);
+      --green-glow: rgba(0,230,118,0.25);
+      --red: #FF4466;
+      --cyan: #22D3EE;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(0,230,118,0.35);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ─── Animated Grid Background ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,230,118,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,230,118,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(0,230,118,0.10) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Minimal Navbar ─── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      height: 64px;
+      background: rgba(5,7,10,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .navbar-brand .logo-svg { width: 32px; height: 32px; }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #00E676, #22D3EE);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── Main Content ─── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Login Card ─── */
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06);
+      animation: cardIn 0.5s ease-out both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 50%; transform: translateX(-50%);
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #00E676, transparent);
+    }
+
+    /* ─── Card Header ─── */
+    .card-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .card-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: var(--green-dim);
+      border-radius: 16px;
+      border: 1px solid rgba(0,230,118,0.2);
+      margin-bottom: 20px;
+    }
+
+    .card-logo svg { width: 32px; height: 32px; }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Form ─── */
+    .form { display: flex; flex-direction: column; gap: 20px; }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .field-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .field-label span.req { color: var(--green); margin-left: 2px; }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--text-muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon svg { width: 16px; height: 16px; }
+
+    .field-input {
+      width: 100%;
+      padding: 13px 14px 13px 42px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+
+    .field-input::placeholder { color: rgba(148,163,184,0.5); }
+
+    .field-input:focus {
+      border-color: rgba(0,230,118,0.45);
+      background: rgba(0,230,118,0.04);
+      box-shadow: 0 0 0 3px rgba(0,230,118,0.08);
+    }
+
+    .field-input.error {
+      border-color: rgba(255,68,102,0.5);
+      box-shadow: 0 0 0 3px rgba(255,68,102,0.08);
+    }
+
+    .field-input.has-toggle { padding-right: 46px; }
+
+    .toggle-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .toggle-btn:hover { color: var(--green); }
+    .toggle-btn svg { width: 16px; height: 16px; }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: var(--red);
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .field-error.visible { display: flex; }
+
+    /* ─── Forgot Password ─── */
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -8px;
+    }
+
+    .forgot-link {
+      font-size: 0.82rem;
+      color: var(--cyan);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover { color: var(--green); text-decoration: underline; }
+
+    /* ─── Submit Button ─── */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #00E676, #00C853);
+      color: #05070A;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      position: relative;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(0,230,118,0.35);
+    }
+
+    .btn-submit:hover:not(:disabled)::after { opacity: 1; }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(5,7,10,0.3);
+      border-top-color: #05070A;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+
+    .btn-submit.loading .btn-text { display: none; }
+    .btn-submit.loading .spinner { display: block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Divider ─── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin: 4px 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Sign Up Link ─── */
+    .signup-prompt {
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .signup-prompt a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .signup-prompt a:hover { opacity: 0.8; text-decoration: underline; }
+
+    /* ─── Error Alert ─── */
+    .alert {
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .alert.error {
+      background: rgba(255,68,102,0.1);
+      border: 1px solid rgba(255,68,102,0.25);
+      color: #FF8099;
+      display: flex;
+    }
+
+    .alert.success {
+      background: rgba(0,230,118,0.1);
+      border: 1px solid rgba(0,230,118,0.25);
+      color: #00E676;
+      display: flex;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--green); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 480px) {
+      .login-card { padding: 36px 24px; }
+      .card-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Minimal Navbar ─── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar-brand" aria-label="TradeNexa Home">
+      <span class="logo-svg">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="lg-nav" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00E676"/><stop offset="100%" stop-color="#22D3EE"/>
+            </linearGradient>
+          </defs>
+          <path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="url(#lg-nav)" stroke-width="1.5" fill="none"/>
+          <line x1="4" y1="18" x2="10" y2="14" stroke="url(#lg-nav)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="10" y1="14" x2="16" y2="20" stroke="url(#lg-nav)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="20" x2="22" y2="12" stroke="url(#lg-nav)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="12" x2="28" y2="16" stroke="url(#lg-nav)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="20" r="2" fill="#00E676" opacity="0.8"/>
+          <circle cx="22" cy="12" r="2" fill="#22D3EE" opacity="0.8"/>
+        </svg>
+      </span>
+      <span class="brand-name">TradeNexa</span>
+    </a>
+  </nav>
+
+  <!-- ─── Main Content ─── -->
+  <main>
+    <div class="login-card" role="main">
+
+      <!-- Card Header -->
+      <header class="card-header">
+        <div class="card-logo" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lg-card" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00E676"/><stop offset="100%" stop-color="#22D3EE"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="url(#lg-card)" stroke-width="1.5" fill="none"/>
+            <line x1="4" y1="18" x2="10" y2="14" stroke="url(#lg-card)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="10" y1="14" x2="16" y2="20" stroke="url(#lg-card)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="16" y1="20" x2="22" y2="12" stroke="url(#lg-card)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="12" x2="28" y2="16" stroke="url(#lg-card)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="16" cy="20" r="2" fill="#00E676" opacity="0.8"/>
+            <circle cx="22" cy="12" r="2" fill="#22D3EE" opacity="0.8"/>
+          </svg>
+        </div>
+        <h1 class="card-title">WELCOME BACK</h1>
+        <p class="card-subtitle">Sign in to your TradeNexa account</p>
+      </header>
+
+      <!-- Alert -->
+      <div id="form-alert" role="alert" aria-live="polite" class="alert" style="display:none;"></div>
+
+      <!-- Login Form -->
+      <form class="form" id="login-form" novalidate aria-label="Sign in form">
+
+        <!-- Email -->
+        <div class="field-group">
+          <label class="field-label" for="email">Email Address <span class="req" aria-hidden="true">*</span></label>
+          <div class="input-wrapper">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="field-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+              aria-required="true"
+              aria-describedby="email-error"
+            />
+          </div>
+          <span class="field-error" id="email-error" role="alert">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-4a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v2a1 1 0 0 1-1 1z"/></svg>
+            Please enter a valid email address.
+          </span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label class="field-label" for="password">Password <span class="req" aria-hidden="true">*</span></label>
+          <div class="input-wrapper">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="field-input has-toggle"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              aria-required="true"
+              aria-describedby="password-error"
+            />
+            <button
+              type="button"
+              class="toggle-btn"
+              id="toggle-password"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              <!-- Eye Open -->
+              <svg id="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <!-- Eye Closed (hidden by default) -->
+              <svg id="eye-closed" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                <line x1="2" x2="22" y1="2" y2="22"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="password-error" role="alert">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-4a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v2a1 1 0 0 1-1 1z"/></svg>
+            Password is required.
+          </span>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="forgot-row">
+          <a href="#" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submit-btn" aria-label="Sign in to your account">
+          <span class="btn-text">SIGN IN</span>
+          <div class="spinner" aria-hidden="true"></div>
+        </button>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true">or</div>
+
+        <!-- Sign Up Link -->
+        <p class="signup-prompt">
+          Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- ─── Minimal Footer ─── -->
+  <footer>
+    <div class="footer-content">
+      <p class="footer-copy">&copy; 2025 TradeNexa. All rights reserved.</p>
+      <nav class="footer-links" aria-label="Legal links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="risk-disclaimer.html">Risk Disclaimer</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const form     = document.getElementById('login-form');
+      const emailEl  = document.getElementById('email');
+      const passEl   = document.getElementById('password');
+      const submitBtn= document.getElementById('submit-btn');
+      const alertBox = document.getElementById('form-alert');
+      const toggleBtn= document.getElementById('toggle-password');
+      const eyeOpen  = document.getElementById('eye-open');
+      const eyeClosed= document.getElementById('eye-closed');
+
+      /* ─── Show / Hide Password ─── */
+      toggleBtn.addEventListener('click', function () {
+        const isText = passEl.type === 'text';
+        passEl.type = isText ? 'password' : 'text';
+        this.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
+        this.setAttribute('aria-pressed', String(!isText));
+        eyeOpen.style.display   = isText ? 'block' : 'none';
+        eyeClosed.style.display = isText ? 'none'  : 'block';
+      });
+
+      /* ─── Field Validation ─── */
+      function validateEmail(val) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+      }
+
+      function setError(input, errorEl, show) {
+        if (show) {
+          input.classList.add('error');
+          errorEl.classList.add('visible');
+        } else {
+          input.classList.remove('error');
+          errorEl.classList.remove('visible');
+        }
+      }
+
+      function showAlert(message, type) {
+        alertBox.textContent = message;
+        alertBox.className = 'alert ' + type;
+        alertBox.style.display = 'flex';
+      }
+
+      function clearAlert() {
+        alertBox.style.display = 'none';
+        alertBox.className = 'alert';
+      }
+
+      /* ─── Live validation on blur ─── */
+      emailEl.addEventListener('blur', function () {
+        setError(this, document.getElementById('email-error'), this.value && !validateEmail(this.value));
+      });
+
+      emailEl.addEventListener('input', function () {
+        if (this.classList.contains('error') && validateEmail(this.value)) {
+          setError(this, document.getElementById('email-error'), false);
+        }
+        clearAlert();
+      });
+
+      passEl.addEventListener('input', function () {
+        if (this.classList.contains('error') && this.value.length > 0) {
+          setError(this, document.getElementById('password-error'), false);
+        }
+        clearAlert();
+      });
+
+      /* ─── Form Submit ─── */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearAlert();
+
+        let valid = true;
+
+        if (!validateEmail(emailEl.value)) {
+          setError(emailEl, document.getElementById('email-error'), true);
+          valid = false;
+        }
+
+        if (passEl.value.trim().length === 0) {
+          setError(passEl, document.getElementById('password-error'), true);
+          valid = false;
+        }
+
+        if (!valid) return;
+
+        /* Simulate sign-in loading state */
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        setTimeout(function () {
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          /* In production, handle auth response here */
+          /* Simulate incorrect credentials for demo */
+          showAlert('Invalid email or password. Please try again.', 'error');
+        }, 1800);
+      });
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions — TradeNexa</title>
+  <meta name="description" content="Answers to common questions regarding TradeNexa TradingView indicator setup, billing, signals, and security." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.12em; }
+    .navbar-logo span { color: var(--buy); }
+    .navbar-nav { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .navbar-nav a { text-decoration: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.05em; }
+    .navbar-nav a:hover, .navbar-nav a.active { color: var(--buy); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--buy); color: #000; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .page-hero { padding: 140px 0 50px; text-align: center; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: var(--font-heading); font-size: 1.05rem; font-weight: 600; color: #fff; }
+    .faq-question:hover { color: var(--buy); }
+    .faq-answer { display: none; padding-top: 12px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-icon { font-size: 1.2rem; color: var(--buy); }
+    @media (max-width: 800px) { .navbar-nav { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner" style="max-width:1200px;">
+    <a href="index.html" class="navbar-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/><line x1="4" y1="18" x2="10" y2="14" stroke="#00E676" stroke-width="1.5"/><line x1="10" y1="14" x2="16" y2="20" stroke="#00E676" stroke-width="1.5"/><line x1="16" y1="20" x2="22" y2="12" stroke="#22D3EE" stroke-width="1.5"/><line x1="22" y1="12" x2="28" y2="16" stroke="#22D3EE" stroke-width="1.5"/></svg>
+      TRADE<span>NEXA</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="signals.html">Signals</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html" class="active">FAQ</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="pricing.html" class="btn btn-primary">Get Access</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-hero">
+    <h1 style="font-size:clamp(2.2rem, 4vw, 3.4rem);font-family:var(--font-heading);font-weight:800;margin-bottom:16px;">FREQUENTLY ASKED QUESTIONS</h1>
+    <p style="color:var(--text-secondary);">Everything you need to know about TradeNexa licensing, TradingView integration, and signals.</p>
+  </div>
+
+  <div style="margin-bottom:80px;">
+    <div class="faq-item open">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>What is TradeNexa?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        TradeNexa is an institutional-grade technical indicator designed exclusively for the TradingView platform. It simplifies complex market structure into high-probability visual BUY and SELL signals to support systematic trading decisions.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Do I need a paid TradingView subscription?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        No, TradeNexa functions seamlessly on the 100% Free plan of TradingView. You do not require a Pro or Premium TradingView tier to run the indicator on your charts.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Which markets and timeframes can I trade?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        TradeNexa works across all assets available on TradingView, including Cryptocurrencies (BTC, ETH, SOL), Forex (EURUSD, GBPUSD, JPY pairs), Commodities (Gold, Silver, Crude Oil), and Major Indices (S&amp;P500, Nasdaq). It supports all standard timeframes from 1-minute scalp charts to 1-day swing charts.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Do TradeNexa signals repaint?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        No. TradeNexa signals lock permanently once the respective timeframe candle closes. This ensures complete algorithmic transparency for both live execution and historical backtesting.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>How do I receive access after purchasing?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Immediately after checkout, you enter your TradingView username in your TradeNexa Dashboard. Our automated provisioning engine grants your TradingView account Invite-Only script permission within minutes.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>Does TradeNexa guarantee profitable returns?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        No indicator can guarantee profits. TradeNexa is a technical decision-support analysis tool. Sustainable trading requires strict personal risk management and disciplined strategy execution.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <span>What is the difference between Monthly and Lifetime?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Monthly is a flexible recurring subscription that you can cancel anytime. Lifetime is a single one-time payment providing permanent access to the indicator and all future algorithmic updates with no recurring fees.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:0.8rem;color:var(--text-muted);">
+  <p>© 2026 TradeNexa. Trade with clarity. Built for TradingView.</p>
+  <p style="margin-top:10px;"><a href="terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Terms</a><a href="privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Privacy</a><a href="risk-disclaimer.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Risk Disclaimer</a></p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

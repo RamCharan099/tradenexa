@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard — TradeNexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --sell: #FF4466;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .dash-wrap { display: flex; min-height: 100vh; }
+    .sidebar { width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .dash-main { flex: 1; padding: 40px; }
+    .nav-list { list-style: none; margin-top: 30px; }
+    .nav-list li { margin-bottom: 6px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+    .nav-link.active, .nav-link:hover { color: #fff; background: rgba(0,230,118,0.08); border-left: 3px solid var(--buy); }
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 30px 0; }
+    .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+    .stat-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+    .stat-val { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: #fff; }
+    .action-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+    .btn-primary { background: var(--buy); color: #000; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(2, 1fr); } .dash-wrap { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); } }
+  </style>
+</head>
+<body>
+
+<div class="dash-wrap">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <a href="index.html" style="text-decoration:none;font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;">
+        <svg width="24" height="24" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/></svg>
+        AXOR<span style="color:var(--buy)">YNTH</span>
+      </a>
+
+      <ul class="nav-list">
+        <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="tradingview-access.html" class="nav-link">TradingView Access</a></li>
+        <li><a href="license.html" class="nav-link">License Key</a></li>
+        <li><a href="billing.html" class="nav-link">Billing &amp; Invoices</a></li>
+        <li><a href="account.html" class="nav-link">Account Settings</a></li>
+        <li><a href="contact.html" class="nav-link">Support Desk</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <a href="index.html" class="nav-link" style="color:var(--sell)">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h1 style="font-family:var(--font-heading);font-size:1.8rem;">Welcome Back, Trader.</h1>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">Your TradeNexa analytical indicator toolkit is running and up-to-date.</p>
+      </div>
+      <a href="tradingview-access.html" class="btn btn-primary">Install Script on TV</a>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-label">Subscription Status</div>
+        <div class="stat-val" style="color:var(--buy)">ACTIVE</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Current Tier</div>
+        <div class="stat-val">LIFETIME ACCESS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">TradingView Script Version</div>
+        <div class="stat-val">v2.4 (PineScript 5)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Cloud Webhook Alerts</div>
+        <div class="stat-val" style="color:var(--accent)">READY</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3 style="font-family:var(--font-heading);font-size:1.2rem;margin-bottom:12px;">Active License Overview</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#05070A;border:1px solid var(--border);border-radius:10px;padding:16px 24px;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Registered License Key</div>
+          <div style="font-family:var(--font-mono);font-size:1.1rem;color:var(--buy);margin-top:4px;">TNX-9842-PRO-LIVE</div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <a href="license.html" class="btn btn-secondary">Manage License</a>
+          <a href="tradingview-access.html" class="btn btn-primary">View Install Guide</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3 style="font-family:var(--font-heading);font-size:1.2rem;margin-bottom:16px;">Recent Algorithmic Updates</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+        <strong>Version 2.4 Released:</strong> Improved momentum filter resolution on lower timeframes (1m-5m). Reduced consolidation false positives across Bitcoin and NASDAQ pairs. Update is automatically active inside your TradingView chart.
+      </p>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
+

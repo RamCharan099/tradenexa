@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful — TradeNexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #05070A;
+      --bg2:      #0A0F14;
+      --card:     #0E151C;
+      --text:     #F0F4F8;
+      --muted:    #94A3B8;
+      --green:    #00E676;
+      --red:      #FF4466;
+      --cyan:     #22D3EE;
+      --border:   rgba(255,255,255,0.07);
+      --r12:      12px;
+      --r20:      20px;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Navbar ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5,7,10,0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-logo span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      color: #05070A;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      padding: 8px 18px;
+      border-radius: var(--r12);
+      text-decoration: none;
+    }
+    @media(max-width:768px){
+      .nav-links { display: none; }
+    }
+
+    /* ── Confetti dots ───────────────────────────────── */
+    .confetti-wrap {
+      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .dot {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp var(--dur, 6s) var(--delay, 0s) infinite ease-in;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ── Hero glow background ────────────────────────── */
+    .glow-bg {
+      position: fixed;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(0,230,118,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Main ────────────────────────────────────────── */
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 64px - 80px);
+      padding: 60px 20px;
+      gap: 40px;
+    }
+
+    /* ── Checkmark ───────────────────────────────────── */
+    .check-ring {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(0,230,118,0.08);
+      border: 2px solid rgba(0,230,118,0.3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      animation: ringPulse 2.5s ease-out forwards;
+    }
+    @keyframes ringPulse {
+      0%   { transform: scale(0.4); opacity: 0; box-shadow: 0 0 0 0 rgba(0,230,118,0.5); }
+      60%  { transform: scale(1.08); opacity: 1; box-shadow: 0 0 0 24px rgba(0,230,118,0); }
+      100% { transform: scale(1);   opacity: 1; box-shadow: 0 0 40px rgba(0,230,118,0.2); }
+    }
+    .check-icon {
+      width: 48px; height: 48px;
+      stroke: var(--green);
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .check-path {
+      stroke-dasharray: 80;
+      stroke-dashoffset: 80;
+      animation: drawCheck 0.6s 0.6s ease-out forwards;
+    }
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ── Heading area ────────────────────────────────── */
+    .hero-text { text-align: center; }
+    .hero-text h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero-text p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    /* ── Status card ─────────────────────────────────── */
+    .status-card {
+      background: var(--card);
+      border: 1px solid rgba(0,230,118,0.18);
+      border-radius: var(--r20);
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 0 60px rgba(0,230,118,0.06);
+    }
+    .status-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-label { color: var(--muted); }
+    .status-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .badge-active {
+      background: rgba(0,230,118,0.12);
+      color: var(--green);
+      border: 1px solid rgba(0,230,118,0.3);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Buttons ─────────────────────────────────────── */
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      color: #05070A;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 14px 28px;
+      border-radius: var(--r12);
+      text-decoration: none;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      padding: 13px 28px;
+      border-radius: var(--r12);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-2px);
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 8px; }
+    .footer-left svg { width: 24px; height: 24px; }
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+    .footer-right { color: var(--muted); font-size: 0.75rem; }
+    .footer-disclaimer {
+      width: 100%;
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-align: center;
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti -->
+  <div class="confetti-wrap" aria-hidden="true" id="confettiWrap"></div>
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="TradeNexa home">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg-ps1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00E676"/><stop offset="100%" stop-color="#22D3EE"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="url(#lg-ps1)" stroke-width="1.5" fill="none"/>
+        <line x1="4" y1="18" x2="10" y2="14" stroke="url(#lg-ps1)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="10" y1="14" x2="16" y2="20" stroke="url(#lg-ps1)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="20" x2="22" y2="12" stroke="url(#lg-ps1)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="22" y1="12" x2="28" y2="16" stroke="url(#lg-ps1)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="16" cy="20" r="2" fill="#00E676" opacity="0.8"/>
+        <circle cx="22" cy="12" r="2" fill="#22D3EE" opacity="0.8"/>
+      </svg>
+      <span>TradeNexa</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="features.html">Features</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <a href="dashboard.html" class="nav-cta">DASHBOARD</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Animated checkmark -->
+    <div class="check-ring" role="img" aria-label="Payment successful checkmark">
+      <svg class="check-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <polyline class="check-path" points="10,26 20,36 38,14"/>
+      </svg>
+    </div>
+
+    <!-- Heading -->
+    <div class="hero-text">
+      <h1>WELCOME TO TradeNexa</h1>
+      <p>Your TradeNexa access is ready. Start trading with clarity.</p>
+    </div>
+
+    <!-- Status Card -->
+    <div class="status-card" role="region" aria-label="Subscription status">
+      <h2>Subscription Details</h2>
+      <div class="status-row">
+        <span class="status-label">Plan</span>
+        <span class="status-value">LIFETIME</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Status</span>
+        <span class="badge-active">● ACTIVE</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Activated</span>
+        <span class="status-value" id="activatedDate">—</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">License</span>
+        <span class="status-value">XXXX-XXXX-XXXX</span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <a href="tradingview-access.html" class="btn-primary" aria-label="Install TradeNexa on TradingView">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+        INSTALL TradeNexa
+      </a>
+      <a href="dashboard.html" class="btn-secondary" aria-label="Go to dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        GO TO DASHBOARD
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg-ps2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00E676"/><stop offset="100%" stop-color="#22D3EE"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="url(#lg-ps2)" stroke-width="1.5" fill="none"/>
+        <line x1="4" y1="18" x2="10" y2="14" stroke="url(#lg-ps2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="10" y1="14" x2="16" y2="20" stroke="url(#lg-ps2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="20" x2="22" y2="12" stroke="url(#lg-ps2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="22" y1="12" x2="28" y2="16" stroke="url(#lg-ps2)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="16" cy="20" r="2" fill="#00E676" opacity="0.8"/>
+        <circle cx="22" cy="12" r="2" fill="#22D3EE" opacity="0.8"/>
+      </svg>
+      <span class="footer-brand">TradeNexa</span>
+    </div>
+    <div class="footer-right">&copy; <span id="fyear"></span> TradeNexa. All rights reserved.</div>
+    <p class="footer-disclaimer">
+      TradeNexa is a decision-support tool. It does not guarantee profitable trades. Trading involves substantial risk of loss.
+      Past performance is not indicative of future results. Please read our
+      <a href="risk-disclaimer.html" style="color:var(--cyan);">Risk Disclaimer</a> before trading.
+    </p>
+  </footer>
+
+  <script>
+    // Set today's date
+    const now = new Date();
+    document.getElementById('activatedDate').textContent = now.toLocaleDateString('en-IN', {
+      day: '2-digit', month: 'short', year: 'numeric'
+    });
+    document.getElementById('fyear').textContent = now.getFullYear();
+
+    // Generate confetti dots
+    const wrap = document.getElementById('confettiWrap');
+    const colors = ['#00E676','#22D3EE','#00BFA5','#69F0AE','#40C4FF'];
+    for (let i = 0; i < 40; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.style.left = Math.random() * 100 + 'vw';
+      dot.style.setProperty('--dur', (5 + Math.random() * 7) + 's');
+      dot.style.setProperty('--delay', (Math.random() * 8) + 's');
+      dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+      dot.style.width = dot.style.height = (4 + Math.random() * 6) + 'px';
+      wrap.appendChild(dot);
+    }
+  </script>
+</body>
+</html>
+

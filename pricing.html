@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Plans — TradeNexa TradingView Indicator</title>
+  <meta name="description" content="Transparent pricing for TradeNexa TradingView indicator. Choose Monthly subscription or one-time Lifetime access." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root {
+      --bg-primary: #05070A;
+      --bg-secondary: #0A0F14;
+      --bg-card: #0E151C;
+      --border: rgba(255,255,255,0.07);
+      --text-primary: #F0F4F8;
+      --text-secondary: #94A3B8;
+      --text-muted: #4A5568;
+      --buy: #00E676;
+      --sell: #FF4466;
+      --accent: #22D3EE;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(5,7,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.12em; }
+    .navbar-logo span { color: var(--buy); }
+    .navbar-nav { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .navbar-nav a { text-decoration: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.05em; transition: color 0.2s; }
+    .navbar-nav a:hover, .navbar-nav a.active { color: var(--buy); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.25s; border: none; }
+    .btn-primary { background: var(--buy); color: #000; box-shadow: 0 0 20px rgba(0,230,118,0.3); }
+    .btn-primary:hover { background: #1AFF8A; transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .page-hero { padding: 140px 0 40px; text-align: center; }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 900px; margin: 40px auto 80px; }
+    .plan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .plan-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,230,118,0.1);
+      border-color: rgba(0,230,118,0.3);
+    }
+    .plan-card.featured {
+      border-color: rgba(0,230,118,0.4);
+      box-shadow: 0 0 40px rgba(0,230,118,0.08);
+      animation: neon-glow 5s infinite ease-in-out;
+    }
+    @keyframes neon-glow {
+      0%, 100% { box-shadow: 0 0 35px rgba(0, 230, 118, 0.1); }
+      50% { box-shadow: 0 0 60px rgba(0, 230, 118, 0.22); }
+    }
+    .plan-badge {
+      position: absolute;
+      top: -14px;
+      right: 30px;
+      background: var(--buy);
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.1em;
+      box-shadow: 0 0 15px rgba(0,230,118,0.5);
+      animation: pulse-dot 2.5s infinite;
+    }
+    .price-num { font-size: 3.2rem; font-family: var(--font-heading); font-weight: 800; color: #fff; margin: 16px 0; }
+    .feature-list { list-style: none; margin: 24px 0 32px; flex-grow: 1; }
+    .feature-list li { margin-bottom: 12px; color: var(--text-secondary); font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+    .feature-list li span { color: var(--buy); font-weight: bold; }
+    .compare-table { width: 100%; border-collapse: collapse; margin-top: 40px; background: var(--bg-card); border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .compare-table th, .compare-table td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { background: rgba(255,255,255,0.02); font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+    @media (max-width: 800px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .navbar-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none"><path d="M18 6 L30 29 L25.5 29 L22 21.5 L14 21.5 L10.5 29 L6 29 Z" stroke="#00E676" stroke-width="2" fill="none"/><line x1="4" y1="18" x2="10" y2="14" stroke="#00E676" stroke-width="1.5"/><line x1="10" y1="14" x2="16" y2="20" stroke="#00E676" stroke-width="1.5"/><line x1="16" y1="20" x2="22" y2="12" stroke="#22D3EE" stroke-width="1.5"/><line x1="22" y1="12" x2="28" y2="16" stroke="#22D3EE" stroke-width="1.5"/></svg>
+      TRADE<span>NEXA</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="signals.html">Signals</a></li>
+      <li><a href="pricing.html" class="active">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div style="display:flex;gap:12px;">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="signup.html" class="btn btn-primary">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-hero">
+    <h1 style="font-size:clamp(2.4rem, 5vw, 3.8rem);font-family:var(--font-heading);font-weight:800;margin-bottom:16px;">SIMPLE PRICING. NO SURPRISES.</h1>
+    <p style="color:var(--text-secondary);max-width:550px;margin:0 auto;">Invest in technical chart clarity with flexible recurring or one-time lifetime access.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Monthly Plan -->
+    <div class="plan-card">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;">RECURRING ACCESS</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.6rem;margin-top:6px;">TradeNexa Monthly</h3>
+        <div class="price-num">₹1,999<span style="font-size:1rem;color:var(--text-secondary);font-weight:400;">/mo</span></div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Cancel anytime with zero long-term lock-in.</p>
+      </div>
+      <ul class="feature-list">
+        <li><span>✓</span> Full TradingView Indicator Engine</li>
+        <li><span>✓</span> Visual BUY &amp; SELL Signals</li>
+        <li><span>✓</span> Multi-Timeframe Integration</li>
+        <li><span>✓</span> TradingView Cloud Alerts</li>
+        <li><span>✓</span> Standard Customer Support</li>
+        <li><span>✓</span> Continuous Algorithmic Updates</li>
+      </ul>
+      <a href="signup.html?plan=monthly" class="btn btn-secondary" style="width:100%;justify-content:center;padding:14px;">Select Monthly Plan</a>
+    </div>
+
+    <!-- Lifetime Plan -->
+    <div class="plan-card featured">
+      <div class="plan-badge">BEST VALUE</div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--buy);text-transform:uppercase;letter-spacing:0.1em;">ONE-TIME INVESTMENT</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.6rem;margin-top:6px;">TradeNexa Lifetime</h3>
+        <div class="price-num">₹9,999<span style="font-size:1rem;color:var(--text-secondary);font-weight:400;"> one-time</span></div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);">Pay once. Enjoy perpetual access forever.</p>
+      </div>
+      <ul class="feature-list">
+        <li><span>✓</span> Permanent TradingView Script Access</li>
+        <li><span>✓</span> High-Conviction BUY &amp; SELL Layer</li>
+        <li><span>✓</span> All Supported Markets (Crypto/Forex/Indices)</li>
+        <li><span>✓</span> Real-Time Multi-Device Alerts</li>
+        <li><span>✓</span> Priority Support Escalation</li>
+        <li><span>✓</span> All Future Script Versions Included</li>
+        <li><span>✓</span> Zero Subscription Overhead</li>
+      </ul>
+      <a href="signup.html?plan=lifetime" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;">Get Lifetime Access</a>
+    </div>
+  </div>
+
+  <div style="margin-bottom:80px;">
+    <h2 style="font-family:var(--font-heading);font-size:1.8rem;text-align:center;margin-bottom:30px;">Plan Feature Comparison</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>Monthly</th>
+          <th>Lifetime</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TradingView Invite-Only Script</td>
+          <td>Included</td>
+          <td>Included (Perpetual)</td>
+        </tr>
+        <tr>
+          <td>BUY &amp; SELL Visual Markers</td>
+          <td>Included</td>
+          <td>Included</td>
+        </tr>
+        <tr>
+          <td>Alerts (Push, Email, Webhook)</td>
+          <td>Included</td>
+          <td>Included</td>
+        </tr>
+        <tr>
+          <td>Future Core Algorithm Upgrades</td>
+          <td>Active Duration</td>
+          <td>Lifetime Guarantee</td>
+        </tr>
+        <tr>
+          <td>Customer Support SLA</td>
+          <td>Standard (48h)</td>
+          <td>Priority (12-24h)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:0.8rem;color:var(--text-muted);">
+  <p>© 2026 TradeNexa. Trade with clarity. Built for TradingView.</p>
+  <p style="margin-top:10px;"><a href="terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Terms</a><a href="privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Privacy</a><a href="risk-disclaimer.html" style="color:var(--text-muted);text-decoration:none;margin:0 10px;">Risk Disclaimer</a></p>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
+
